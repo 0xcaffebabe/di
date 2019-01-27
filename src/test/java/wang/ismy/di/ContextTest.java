@@ -10,11 +10,12 @@ public class ContextTest {
 
     @Test
     public void bind() throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        Context.bind(ServiceImpl.class);
-        System.out.println("-------");
-        Context.bind(Controller.class);
-
-        System.out.println(Context.get(Service.class));
-        System.out.println(Context.get(Controller.class));
+        System.out.println(Context.get(Main.class));
+//        Context.bind(ServiceImpl.class);
+//        System.out.println("-------");
+//        Context.bind(Controller.class);
+//
+//        System.out.println(Context.get(Service.class));
+//        System.out.println(Context.get(Controller.class));
     }
 }

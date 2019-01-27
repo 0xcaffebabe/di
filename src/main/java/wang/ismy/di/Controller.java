@@ -1,5 +1,7 @@
 package wang.ismy.di;
 
+
+@Component
 public class Controller {
     {
         System.out.println("controller 被新建");

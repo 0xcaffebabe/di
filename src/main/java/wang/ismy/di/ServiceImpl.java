@@ -1,5 +1,6 @@
 package wang.ismy.di;
 
+@Component
 public class ServiceImpl implements Service {
 
     private DAO dao;

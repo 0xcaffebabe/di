@@ -10,8 +10,8 @@
 
 DAO:
 ```java
+@Component
 public class DAO {
-
     {
         System.out.println("DAO被新建");
     }
@@ -25,11 +25,12 @@ public interface Service{
 ```
 ServiceImpl:
 ```java
+@Component
 public class ServiceImpl implements Service {
 
     private DAO dao;
     {
-        System.out.println("service 被 创建");
+        System.out.println("service 被创建");
     }
 
     public ServiceImpl(DAO dao){
@@ -39,6 +40,7 @@ public class ServiceImpl implements Service {
 ```
 Controller:
 ```java
+@Component
 public class Controller {
     {
         System.out.println("controller 被新建");
@@ -50,18 +52,15 @@ public class Controller {
     }
 }
 ```
-Test:
+Main:
 ```java
-public class ContextTest {
+public class Main {
 
-    @Test
-    public void bind() throws IllegalAccessException, InstantiationException, InvocationTargetException {
-        Context.bind(ServiceImpl.class);
-        System.out.println("-------");
-        Context.bind(Controller.class);
-
-        System.out.println(Context.get(Service.class));
+    public static void main(String[] args) {
+        Context.scanAllClasses();
         System.out.println(Context.get(Controller.class));
+        System.out.println(Context.get(Service.class));
+        
     }
 }
 ```
@@ -69,8 +68,7 @@ public class ContextTest {
 ```text
 DAO被新建
 service 被创建
--------
 controller 被新建
-wang.ismy.di.ServiceImpl@64f6106c
-wang.ismy.di.Controller@553a3d88
+wang.ismy.di.Controller@668bc3d5
+wang.ismy.di.ServiceImpl@3cda1055
 ```
