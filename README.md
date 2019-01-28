@@ -36,6 +36,11 @@ public class ServiceImpl implements Service {
     public ServiceImpl(DAO dao){
         this.dao = dao;
     }
+
+    @Override
+    public void get() {
+        System.out.println("get");
+    }
 }
 ```
 Controller:
@@ -72,3 +77,30 @@ controller 被新建
 wang.ismy.di.Controller@668bc3d5
 wang.ismy.di.ServiceImpl@3cda1055
 ```
+#
+AOP支持:
+```java
+public class Main {
+
+    public static void main(String[] args) {
+        Context.scanAllClasses();
+        Context.aop(aspect -> {
+
+            System.out.println(aspect.getMethod()+"被运行");
+            return aspect.process();
+        });
+        Service service = (Service) Context.get(Service.class);
+        service.get();
+
+    }
+}
+```
+输出:
+```text
+DAO被新建
+service 被创建
+controller 被新建
+public void wang.ismy.di.ServiceImpl.get()被运行
+get
+```
+
