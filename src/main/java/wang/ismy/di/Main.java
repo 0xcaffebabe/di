@@ -12,7 +12,7 @@ public class Main {
             System.out.println(aspect.getMethod()+"被运行");
             return aspect.process();
         });
-        Service service = (Service) Context.get(Service.class);
+        Service service = Context.get(Service.class);
         service.get();
 
     }

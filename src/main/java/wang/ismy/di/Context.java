@@ -30,18 +30,18 @@ public class Context {
 
 
 
-    public static Object get(Class klass) {
+    public static <T>T get(Class<? extends T> klass) {
         // 遍历一下，容器当中是否有klass的实现类或者子类
         try {
             for (var i : container.keySet()) {
                 if (i.getSuperclass().equals(klass)) {
-                    klass = i;
+                    klass = (Class<? extends T>) i;
                     break;
                 }
 
                 for (var j : i.getInterfaces()) {
                     if (j.equals(klass)) {
-                        klass = i;
+                        klass = (Class<? extends T>) i;
                         throw new Exception();
                     }
                 }
@@ -50,7 +50,7 @@ public class Context {
 
         }
         if (container.get(klass) == null) return null;
-        return container.get(klass).getElement();
+        return (T) container.get(klass).getElement();
     }
 
     public static void scanAllClasses() {
