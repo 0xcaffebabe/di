@@ -8,7 +8,6 @@ public class Main {
     public static void main(String[] args) {
         Context.scanAllClasses();
         Context.aop(aspect -> {
-
             System.out.println(aspect.getMethod()+"被运行");
             return aspect.process();
         });
