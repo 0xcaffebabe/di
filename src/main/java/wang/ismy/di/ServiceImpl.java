@@ -11,4 +11,9 @@ public class ServiceImpl implements Service {
     public ServiceImpl(DAO dao){
         this.dao = dao;
     }
+
+    @Override
+    public void get() {
+        System.out.println("get");
+    }
 }

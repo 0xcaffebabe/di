@@ -1,5 +1,7 @@
 package wang.ismy.di;
 
+import net.sf.cglib.proxy.Enhancer;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -14,13 +16,18 @@ public class Context {
 
     private static Map<Class, Node> container = new ConcurrentHashMap<>();
 
+    private static AOPSupport aopSupport = new AOPSupport();
+
     public static void bind(Class klass) throws IllegalAccessException, InstantiationException, InvocationTargetException, ClassNotFoundException {
         if (get(klass) != null) return;
         Node node = new Node();
         ClassHolder holder = new ClassHolder();
         node.setElement(initObject(klass, holder));
-        container.put(holder.getKlass(), node);
+        injectNode(holder, node);
     }
+
+
+
 
 
     public static Object get(Class klass) {
@@ -52,6 +59,14 @@ public class Context {
         // 遍历classes，如果发现@Component就注入到容器中
         scanComponent2Container(classes);
 
+    }
+
+    public static void aop(AOPRunnable aopRunnable){
+        Context.aopSupport.setAopRunnable(aopRunnable);
+    }
+
+    private static void injectNode(ClassHolder holder,Node node) {
+        container.put(holder.getKlass(), node);
     }
 
     private static void scanComponent2Container(List<String> classes) {
@@ -100,11 +115,22 @@ public class Context {
         * 否则通过反射创建新对象，并且把新对象放入容器中备用
         */
         if (get(klass) != null) return get(klass);
-        Object ret = constructor.newInstance(params);
+        //Object ret = constructor.newInstance(params);
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(holder.getKlass());
+        enhancer.setCallback(aopSupport);
+        Class[] paramsType = new Class[constructor.getParameterCount()];
+
+        for (int i =0;i<paramsType.length;i++){
+            paramsType[i]=constructor.getParameters()[i].getType();
+        }
+
+        Object ret = enhancer.create(paramsType,params);
         Node node = new Node();
         node.setElement(ret);
-        container.put(klass,node);
-        return ret;
+
+        injectNode(new ClassHolder(klass),node);
+        return container.get(klass).getElement();
     }
 
     /*

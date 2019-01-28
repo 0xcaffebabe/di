@@ -11,4 +11,9 @@ public class ClassHolder {
     private Class klass;
 
 
+    public ClassHolder(Class klass) {
+        this.klass = klass;
+    }
+
+    public ClassHolder(){}
 }
