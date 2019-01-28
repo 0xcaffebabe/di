@@ -4,11 +4,11 @@ package wang.ismy.di;
 import lombok.Data;
 
 @Data
-public class Node<T> {
+public class Node {
 
-    private T element;
+    private Object element;
 
-    private T next;
+    private Node next;
 
 
 }

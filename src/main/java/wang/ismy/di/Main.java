@@ -1,6 +1,5 @@
 package wang.ismy.di;
 
-import java.lang.reflect.InvocationTargetException;
 
 
 public class Main {
@@ -9,6 +8,5 @@ public class Main {
         Context.scanAllClasses();
         System.out.println(Context.get(Controller.class));
         System.out.println(Context.get(Service.class));
-
     }
 }
